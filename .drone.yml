@@ -12,10 +12,10 @@ services:
     environment:
      - DOCUMENT_ROOT=/test/nexteuropa_varnish/build
   varnish:
-    image: fpfis/varnish-d7
+    image: fpfis/varnish-d7:latest
     environment:
       - BACKEND_HOST=web
-      - BACKEND_PORT=8000
+      - BACKEND_PORT=8080
     volumes:
       - vcls:/srv/vcl/nexteuropa
 
@@ -24,4 +24,4 @@ pipeline:
     image: fpfis/php56-dev
     commands:
       - sleep 5
-      - curl varnish
+      - curl -v varnish
