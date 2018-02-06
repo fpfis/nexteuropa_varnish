@@ -24,4 +24,4 @@ pipeline:
     image: fpfis/php56-dev
     commands:
       - sleep 5
-      - curl varnish:6081
+      - curl varnish:6080
