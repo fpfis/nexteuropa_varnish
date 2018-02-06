@@ -16,13 +16,12 @@ services:
     environment:
       - BACKEND_HOST=web
       - BACKEND_PORT=8080
-      - VCL_DIR=/test/nexteuropa_varnish/vcls
+      - VCL_DIR=/test/nexteuropa_varnish/resources/varnish/vcl
 
 pipeline:
   test-varnish:
     image: fpfis/varnish-d7:latest
     commands:
       - /srv/vcl/config.sh
-      - /usr/sbin/varnishd -p vcl_dir=/test/nexteuropa_varnish/vcls -C -f /default.vcl -n /tmp
-
-
+      - /usr/sbin/varnishd -p vcl_dir=/test/nexteuropa_varnish/resources/varnish/vcl -C -f /default.vcl -n /tmp
+      - /usr/bin/varnishtest -p vcl_dir=/test/nexteuropa_varnish/resources/varnish/vcl resources/varnish/tests/*.vtc

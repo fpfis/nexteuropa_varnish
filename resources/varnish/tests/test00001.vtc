@@ -1,0 +1,35 @@
+varnishtest "Test drupal7 cookie generation"
+
+# Keep replying 200 with stupid body
+server s1 -repeat 10 {
+     rxreq 
+     txresp -body "myjsbody1\n"
+} -start
+
+
+# Basic c4d setup :
+varnish v1 -vcl+backend {
+  import directors;
+
+  include "default.vcl";
+  
+  # Use the random director
+  sub vcl_init {
+      new cluster = directors.random();
+      cluster.add_backend(s1, 1);
+  }
+
+  sub vcl_backend_fetch {
+    set bereq.backend = cluster.backend();
+  }
+
+} -start
+
+# Test cases :
+client c1 -repeat 10 {
+    txreq -url "/" -hdr "Host: europa.eu"
+    rxresp
+    expect resp.http.nexteuropa_varnish == "enabled"
+}
+
+client c1 -run
