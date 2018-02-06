@@ -1,0 +1,27 @@
+# Workspace definition
+workspace:
+  base: /test
+  path: nexteuropa_varnish
+
+# Services needed for the build
+services:
+  mysql:
+    image: fpfis/mysql56
+  web:
+    image: fpfis/php56-dev
+    environment:
+     - DOCUMENT_ROOT=/test/nexteuropa_varnish/build
+  varnish:
+    image: fpfis/varnish-d7
+    environment:
+      - BACKEND_HOST: web
+      - BACKEND_PORT: 8000
+    volumes:
+      - vcls:/srv/vcl/nexteuropa
+
+pipeline:
+  test-varnish:
+    image: fpfis/php56-dev
+    commands:
+      - sleep 5
+      - curl varnish:6081
