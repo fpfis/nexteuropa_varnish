@@ -16,8 +16,7 @@ services:
     environment:
       - BACKEND_HOST=web
       - BACKEND_PORT=8080
-    volumes:
-      - vcls:/srv/vcl/nexteuropa
+      - VCL_DIR=/test/nexteuropa_varnish/vcls
 
 pipeline:
   test-varnish:
