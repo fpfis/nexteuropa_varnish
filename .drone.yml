@@ -20,7 +20,9 @@ services:
 
 pipeline:
   test-varnish:
-    image: fpfis/php56-dev
+    image: fpfis/varnish-d7:latest
     commands:
-      - sleep 5
-      - curl -v varnish
+      - /srv/vcl/config.sh
+      - /usr/sbin/varnishd -p vcl_dir=/test/nexteuropa_varnish/vcls -C -f /default.vcl -n /tmp
+
+
