@@ -14,8 +14,8 @@ services:
   varnish:
     image: fpfis/varnish-d7
     environment:
-      - BACKEND_HOST: web
-      - BACKEND_PORT: 8000
+      - BACKEND_HOST=web
+      - BACKEND_PORT=8000
     volumes:
       - vcls:/srv/vcl/nexteuropa
 
